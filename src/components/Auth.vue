@@ -8,20 +8,36 @@
           type="text"
           v-model="formData.name"
           label="Name"
+          :rules="[rules.required(), rules.max(12)]"
+          placeholder="asdasd"
         />
-        <CustomInput type="text" v-model="formData.email" label="Email" />
+        <CustomInput
+          type="text"
+          v-model="formData.email"
+          label="Email"
+          :rules="[rules.required(), rules.email()]"
+        />
         <CustomInput
           type="password"
           v-model="formData.password"
           label="Password"
+          :rules="[rules.required(), rules.max(16)]"
         />
         <CustomInput
           v-if="register"
           type="password"
           v-model="formData.confirmPassword"
           label="Confirm password"
+          :rules="[rules.required(), rules.max(16)]"
+          :error="
+            formData.password.value !== formData.confirmPassword.value
+              ? 'passwords must match'
+              : ''
+          "
         />
-        <ButtonVue type="submit" class="auth__btn">{{ title }}</ButtonVue>
+        <ButtonVue type="submit" :disabled="!isValid" class="auth__btn">{{
+          title
+        }}</ButtonVue>
       </form>
     </div>
   </section>
@@ -31,15 +47,21 @@
 import CustomInput from "./shared/CustomInput.vue";
 import ButtonVue from "./shared/Button.vue";
 
+import { required, email, max } from "../validation";
+
+const initialFieldValue = {
+  value: "",
+  isValid: false,
+};
+
 const initialStateLogin = {
-  email: "",
-  password: "",
+  email: { ...initialFieldValue },
+  password: { ...initialFieldValue },
 };
 const initialStateRegister = {
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
+  ...initialStateLogin,
+  name: { ...initialFieldValue },
+  confirmPassword: { ...initialFieldValue },
 };
 
 export default {
@@ -61,6 +83,25 @@ export default {
   computed: {
     title() {
       return this.register ? "Register" : "Log in";
+    },
+    rules() {
+      return {
+        required,
+        email,
+        max,
+      };
+    },
+    isValid() {
+      if (this.register) {
+        const isPasswordsMatch =
+          this.formData.password.value === this.formData.confirmPassword.value;
+        if (!isPasswordsMatch) return false;
+      }
+
+      const result = Object.values(this.formData)
+        .map((field) => field.isValid)
+        .reduce((acc, value) => acc && value, true);
+      return result;
     },
   },
   methods: {
@@ -104,7 +145,7 @@ export default {
 .auth__form {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 40px;
 }
 .auth__btn {
   margin-top: 20px;

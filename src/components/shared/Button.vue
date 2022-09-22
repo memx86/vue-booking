@@ -21,7 +21,7 @@ export default {
   background-color: var(--accent-cl);
   border: 1px solid transparent;
   transition: color 250ms linear, background-color 250ms linear,
-    border-color 250ms linear;
+    border-color 250ms linear, opacity 250ms linear;
   cursor: pointer;
 
   &:hover,
@@ -31,6 +31,11 @@ export default {
     background-color: var(--main-light-cl);
     border-color: var(--accent-cl);
     outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }
 </style>
