@@ -66,6 +66,7 @@ export default {
       this.emitUpdate(e.target.value);
     },
     validate() {
+      // if component recieves error prop it's invalid so no need for validation
       if (this.error) {
         return;
       }
@@ -88,10 +89,13 @@ export default {
     },
     error() {
       if (!this.error) {
+        // if error props disappears it means that last input made error to go away. So we validate input and emit event with new value
+        // TODO check is validate() is really necessary here
         this.validate();
         this.emitUpdate(this.modelValue.value);
         return;
       }
+      // if component recieves error prop set isValid to false and display errorMessage
       this.isValid = false;
       this.errorMessage = this.error;
     },
