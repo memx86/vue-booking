@@ -39,6 +39,14 @@
           title
         }}</ButtonVue>
       </form>
+      <p class="auth__text">
+        {{ register ? "Already" : "Don't" }} have an account?
+        <router-link
+          :to="{ name: register ? 'login' : 'register' }"
+          class="auth__link"
+          >{{ register ? "Log in" : "Register" }}</router-link
+        >
+      </p>
     </div>
   </section>
 </template>
@@ -149,5 +157,21 @@ export default {
 }
 .auth__btn {
   margin-top: 20px;
+}
+
+.auth__text {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.auth__link {
+  opacity: 0.5;
+  transition: color 250ms linear, opacity 250ms linear;
+  &:hover,
+  &:focus {
+    opacity: 1;
+    color: var(--accent-cl);
+    outline: none;
+  }
 }
 </style>
