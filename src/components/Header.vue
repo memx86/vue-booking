@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import Container from "./Container.vue";
-import LogoVue from "./Logo.vue";
-import NavLinks from "../NavLinks.vue";
+import Container from "./shared/Container.vue";
+import LogoVue from "./shared/Logo.vue";
+import NavLinks from "./NavLinks.vue";
 
 export default {
   name: "HeaderComponent",

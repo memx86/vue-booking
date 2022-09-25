@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import HeaderVue from "./components/shared/Header.vue";
-import FooterVue from "./components/shared/Footer.vue";
+import HeaderVue from "./components/Header.vue";
+import FooterVue from "./components/Footer.vue";
 import { useAuthStore } from "./store/auth";
 
 export default {
@@ -23,9 +23,19 @@ export default {
     const authStore = useAuthStore();
     return { authStore };
   },
-  mounted() {
-    if (!this.authStore.token) return;
-    this.authStore.refresh();
+  async beforeMount() {
+    // refresh token
+    if (this.authStore.token) await this.authStore.refresh();
+
+    // route guards for first app launch
+    if (this.authStore.isLoggedIn) {
+      if (this.$route.name === "login" || this.$route.name === "register")
+        this.$router.push({ name: "home" });
+    }
+
+    if (!this.authStore.isLoggedIn) {
+      if (this.$route.name === "profile") this.$router.push({ name: "login" });
+    }
   },
 };
 </script>
