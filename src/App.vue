@@ -11,12 +11,21 @@
 <script>
 import HeaderVue from "./components/shared/Header.vue";
 import FooterVue from "./components/shared/Footer.vue";
+import { useAuthStore } from "./store/auth";
 
 export default {
   name: "App",
   components: {
     HeaderVue,
     FooterVue,
+  },
+  setup() {
+    const authStore = useAuthStore();
+    return { authStore };
+  },
+  mounted() {
+    if (!this.authStore.token) return;
+    this.authStore.refresh();
   },
 };
 </script>

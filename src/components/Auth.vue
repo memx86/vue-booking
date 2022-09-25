@@ -9,19 +9,21 @@
           v-model="formData.name"
           label="Name"
           :rules="[rules.required(), rules.max(12)]"
-          placeholder="asdasd"
+          autocomplete="username"
         />
         <CustomInput
           type="text"
           v-model="formData.email"
           label="Email"
           :rules="[rules.required(), rules.email()]"
+          autocomplete="email"
         />
         <CustomInput
           type="password"
           v-model="formData.password"
           label="Password"
           :rules="[rules.required(), rules.max(16)]"
+          autocomplete="new-password"
         />
         <CustomInput
           v-if="register"
@@ -34,6 +36,7 @@
               ? 'passwords must match'
               : ''
           "
+          autocomplete="new-password"
         />
         <CustomButton type="submit" :disabled="!isValid" class="auth__btn">
           {{ title }}
@@ -55,6 +58,8 @@
 import CustomInput from "./shared/CustomInput.vue";
 import CustomButton from "./shared/CustomButton.vue";
 
+import { useAuthStore } from "../store/auth";
+
 import initialInputValue from "../assets/constants/initialInputValue";
 import { required, email, max } from "../validation";
 
@@ -71,6 +76,10 @@ const initialStateRegister = {
 export default {
   name: "AuthComponent",
   components: { CustomInput, CustomButton },
+  setup() {
+    const authStore = useAuthStore();
+    return { authStore };
+  },
   props: {
     register: {
       type: Boolean,
@@ -109,8 +118,28 @@ export default {
     },
   },
   methods: {
-    handleSubmit() {
-      console.log(this.formData);
+    reset() {
+      this.formData = this.register
+        ? { ...initialStateRegister }
+        : { ...initialStateLogin };
+    },
+
+    async handleSubmit() {
+      try {
+        const action = this.register
+          ? this.authStore.register
+          : this.authStore.login;
+
+        const { name, email, password } = this.formData;
+        const creds = this.register
+          ? { name: name.value, email: email.value, password: password.value }
+          : { email: email.value, password: password.value };
+
+        await action(creds);
+        this.reset();
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
