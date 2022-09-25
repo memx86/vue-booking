@@ -35,9 +35,9 @@
               : ''
           "
         />
-        <ButtonVue type="submit" :disabled="!isValid" class="auth__btn">{{
-          title
-        }}</ButtonVue>
+        <CustomButton type="submit" :disabled="!isValid" class="auth__btn">
+          {{ title }}
+        </CustomButton>
       </form>
       <p class="auth__text">
         {{ register ? "Already" : "Don't" }} have an account?
@@ -53,28 +53,24 @@
 
 <script>
 import CustomInput from "./shared/CustomInput.vue";
-import ButtonVue from "./shared/Button.vue";
+import CustomButton from "./shared/CustomButton.vue";
 
+import initialInputValue from "../assets/constants/initialInputValue";
 import { required, email, max } from "../validation";
 
-const initialFieldValue = {
-  value: "",
-  isValid: false,
-};
-
 const initialStateLogin = {
-  email: { ...initialFieldValue },
-  password: { ...initialFieldValue },
+  email: { ...initialInputValue },
+  password: { ...initialInputValue },
 };
 const initialStateRegister = {
   ...initialStateLogin,
-  name: { ...initialFieldValue },
-  confirmPassword: { ...initialFieldValue },
+  name: { ...initialInputValue },
+  confirmPassword: { ...initialInputValue },
 };
 
 export default {
   name: "AuthComponent",
-  components: { CustomInput, ButtonVue },
+  components: { CustomInput, CustomButton },
   props: {
     register: {
       type: Boolean,
@@ -153,7 +149,7 @@ export default {
 .auth__form {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 30px;
 }
 .auth__btn {
   margin-top: 20px;

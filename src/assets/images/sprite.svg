@@ -19,5 +19,8 @@
 <path fill="#0f1d2d" style="fill: var(--color3, #0f1d2d)" d="M22.545 5.817h-16v23.274h16z"></path>
 <path fill="#ff662d" style="fill: var(--color2, #ff662d)" d="M22.545 5.817l-11.637 2.911v23.272l11.637-2.909v-23.274z"></path>
 </symbol>
+<symbol id="triangle" viewBox="0 0 48 32">
+<path d="M24 32l20.784-30h-41.568l20.784 30z"></path>
+</symbol>
 </defs>
 </svg>

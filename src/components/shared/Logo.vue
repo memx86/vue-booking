@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <router-link :to="{ name: 'home' }" class="wrapper">
     <svg width="26" height="28">
       <use :href="link"></use>
     </svg>
@@ -7,7 +7,7 @@
       <span class="text text--light">GO</span>
       <span class="text text--accent">Home</span>
     </span>
-  </div>
+  </router-link>
 </template>
 
 <script>

@@ -41,13 +41,13 @@ export default {
   inheritAttrs: false,
   data() {
     return {
-      isValid: true,
+      isValid: false,
       errorMessage: "",
     };
   },
   computed: {
     hasValue() {
-      return !!this.modelValue;
+      return !!this.modelValue.value;
     },
     getIsValidClass() {
       if (!this.hasValue) return true;
@@ -57,22 +57,24 @@ export default {
   methods: {
     emitUpdate(value) {
       this.$emit("update:modelValue", {
-        value: value,
+        value,
         isValid: this.isValid,
       });
     },
     handleInput(e) {
-      this.validate();
-      this.emitUpdate(e.target.value);
+      const { value } = e.target;
+      this.validate(value);
+      this.emitUpdate(value);
     },
-    validate() {
+    validate(value) {
       // if component recieves error prop it's invalid so no need for validation
       if (this.error) {
         return;
       }
-
+      // if value is passed use it. If not get value from state
+      const valueToValidate = value ?? this.modelValue.value;
       const hasPassed = this.rules.every((rule) => {
-        const { hasPassed, errorMessage } = rule(this.modelValue.value);
+        const { hasPassed, errorMessage } = rule(valueToValidate);
 
         if (!hasPassed) this.errorMessage = errorMessage;
 
@@ -107,12 +109,12 @@ export default {
 .input__wrapper {
   display: block;
   position: relative;
-  --padding: 20px;
+  --padding-left: 20px;
 }
 .input__input {
   width: 100%;
   min-height: 44px;
-  padding-left: var(--padding);
+  padding-left: var(--padding-left);
   font-size: 18px;
   border: 2px solid var(--accent-cl);
   transition: border-color 250ms linear;
@@ -136,7 +138,7 @@ export default {
 }
 .input__label {
   position: absolute;
-  left: var(--padding);
+  left: var(--padding-left);
   top: 50%;
   transform: translateY(-50%);
   transition: transform 250ms linear;
