@@ -1,9 +1,6 @@
-import axios from "axios";
+import axios from "./axios";
 
-import BASE_URL from "../assets/constants/BASE_URL";
 import setToken from "./setToken";
-
-axios.defaults.baseURL = BASE_URL;
 
 const register = async (payload) => {
   const { data } = await axios.post("/users/register", payload);

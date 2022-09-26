@@ -117,6 +117,7 @@ export default {
   top: calc(var(--height) + var(--border-width));
   left: calc(var(--border-width) * -1);
   width: calc(100% + var(--border-width) * 2);
+  background-color: var(--main-light-cl);
 }
 
 .select__item {
