@@ -5,4 +5,9 @@ const getApartments = async () => {
   return data;
 };
 
-export { getApartments };
+const getApartmentById = async (id) => {
+  const { data } = await axios.get(`/apartments/${id}`);
+  return data;
+};
+
+export { getApartments, getApartmentById };

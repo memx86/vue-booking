@@ -4,7 +4,11 @@
       :to="{ name: 'apartment', params: { id: apartment.id } }"
       class="apartments-item__link"
     >
-      <img :src="apartment.imgUrl" class="apartments-item__img" />
+      <img
+        :src="apartment.imgUrl"
+        :alt="apartment.title"
+        class="apartments-item__img"
+      />
       <div class="apartments-item__overlay">
         <p class="apartments-item__description">{{ apartment.descr }}</p>
         <StarRating :rating="apartment.rating" />
@@ -19,22 +23,7 @@
 
 <script>
 import StarRating from "../shared/StarRating.vue";
-// const apartment = {
-//   id: "5fecb172f1af2f4ba2a9c140",
-//   title: "Delectus et iste.",
-//   imgUrl:
-//     "https://res.cloudinary.com/kyoo/image/upload/v1609344654/booking/apartment-20_zwqzt4.jpg",
-//   descr:
-//     "Debitis similique unde et eligendi sapiente in iure blanditiis distinctio. Cum nihil temporibus qui quam aut. Nesciunt qui eveniet eum quam voluptate numquam.",
-//   rating: 3,
-//   price: 1667,
-//   location: { city: "Dnipro" },
-//   owner: {
-//     name: "Bobbie",
-//     phone: "582-740-2926",
-//     email: "Pete_Carter53@hotmail.com",
-//   },
-// };
+
 export default {
   name: "ApartmentsItem",
   props: {

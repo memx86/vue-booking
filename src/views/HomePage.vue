@@ -2,7 +2,7 @@
   <section class="home">
     <Container>
       <SearchApartment class="home__search" />
-      <h1 class="home__title">Chosen apartments</h1>
+      <TitleVue class="home__title"> Chosen apartments </TitleVue>
       <ApartmentsList :apartments="filteredApartments" />
     </Container>
   </section>
@@ -12,12 +12,13 @@
 import Container from "../components/shared/Container.vue";
 import SearchApartment from "../components/SearchApartment.vue";
 import ApartmentsList from "../components/apartments/ApartmentsList.vue";
+import TitleVue from "../components/shared/Title.vue";
 
 import { getApartments } from "../services/apartments";
 
 export default {
   name: "HomePage",
-  components: { Container, SearchApartment, ApartmentsList },
+  components: { Container, SearchApartment, ApartmentsList, TitleVue },
   data() {
     return {
       apartments: [],
@@ -50,7 +51,5 @@ export default {
 
 .home__title {
   margin-bottom: 20px;
-  font-size: 20px;
-  font-weight: 700;
 }
 </style>
