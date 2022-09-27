@@ -23,11 +23,11 @@ export default {
     const authStore = useAuthStore();
     return { authStore };
   },
-  async beforeMount() {
+  async created() {
     // refresh token
     if (this.authStore.token) await this.authStore.refresh();
 
-    // route guards for first app launch
+    // route guards if token is rehydrated and isLoggedIn becomes true
     if (this.authStore.isLoggedIn) {
       if (this.$route.name === "login" || this.$route.name === "register")
         this.$router.push({ name: "home" });

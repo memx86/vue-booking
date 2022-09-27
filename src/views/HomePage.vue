@@ -11,7 +11,8 @@
 <script>
 import Container from "../components/shared/Container.vue";
 import SearchApartment from "../components/SearchApartment.vue";
-import ApartmentsList from "../components/ApartmentsList.vue";
+import ApartmentsList from "../components/apartments/ApartmentsList.vue";
+
 import { getApartments } from "../services/apartments";
 
 export default {
