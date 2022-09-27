@@ -49,6 +49,8 @@ export default {
       return [
         { value: "Test city1 value", label: "Test city1" },
         { value: "Test city2 value", label: "Test city2" },
+        { value: "Test city3 value", label: "Test city3" },
+        { value: "Test city4 value", label: "Test city4" },
       ];
     },
     isValid() {

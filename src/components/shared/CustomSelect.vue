@@ -1,5 +1,5 @@
 <template>
-  <div class="select__wrapper" @click="toggleOptions">
+  <div class="select__wrapper" @click="toggleOptions" tabindex="0">
     <p class="select__value">
       {{ modelValue.label ? modelValue.label : placeholder }}
     </p>
@@ -8,11 +8,13 @@
     </svg>
     <ul v-if="isOpen" class="select__list">
       <li
-        v-for="option in filteredOptions"
+        v-for="(option, idx) in options"
         :key="option.label"
-        class="select__item"
         @click="handleOptionClick(option)"
-        tabindex="1"
+        @mouseenter="handleOptionHighlight(idx)"
+        tabindex="0"
+        class="select__item"
+        :class="highlightedOptionIdx === idx && 'select__item--active'"
       >
         {{ option.label }}
       </li>
@@ -41,19 +43,23 @@ export default {
   data() {
     return {
       isOpen: false,
+      highlightedOptionIdx: 0,
     };
   },
   computed: {
     icon() {
       return `${sprite}#triangle`;
     },
-    filteredOptions() {
-      return this.options.filter(
-        (option) => this.modelValue.value !== option.value
+    valueIdx() {
+      return this.options.findIndex(
+        (option) => option.value === this.modelValue.value
       );
     },
   },
   methods: {
+    openOptions() {
+      this.isOpen = true;
+    },
     toggleOptions() {
       this.isOpen = !this.isOpen;
     },
@@ -65,17 +71,58 @@ export default {
       this.$emit("update:modelValue", { value, label });
       this.closeOptions();
     },
+    handleOptionHighlight(idx) {
+      this.highlightedOptionIdx = idx;
+    },
     clickOutside(e) {
       const clickedElement = e.target;
       const isClickedOutside = !this.$el.contains(clickedElement);
       if (isClickedOutside) this.closeOptions();
     },
+    handleKeyboardEvents(e) {
+      if (e.target !== this.$el) return;
+      e.preventDefault();
+
+      switch (e.code) {
+        case "Space":
+        case "Enter":
+        case "NumpadEnter":
+          this.toggleOptions();
+          if (this.highlightedOptionIdx !== this.valueIdx && !this.isOpen)
+            this.handleOptionClick(this.options[this.highlightedOptionIdx]);
+          break;
+        case "Escape":
+          this.closeOptions();
+          this.$el.blur();
+          break;
+        case "ArrowUp":
+        case "ArrowDown":
+        case "Tab": {
+          const newIdx =
+            this.highlightedOptionIdx + (e.code === "ArrowUp" ? -1 : 1);
+
+          if (newIdx >= 0 && newIdx < this.options.length) {
+            this.handleOptionHighlight(newIdx);
+          }
+          break;
+        }
+        default:
+      }
+    },
+  },
+  watch: {
+    isOpen() {
+      if (!this.isOpen) return;
+      this.highlightedOptionIdx = this.valueIdx;
+    },
   },
   mounted() {
     document.addEventListener("click", this.clickOutside);
+    document.addEventListener("keydown", this.handleKeyboardEvents);
   },
   beforeUnmount() {
     document.removeEventListener("click", this.clickOutside);
+    document.removeEventListener("keydown", this.handleKeyboardEvents);
   },
 };
 </script>
@@ -118,6 +165,7 @@ export default {
   left: calc(var(--border-width) * -1);
   width: calc(100% + var(--border-width) * 2);
   background-color: var(--main-light-cl);
+  z-index: 100;
 }
 
 .select__item {
@@ -136,11 +184,9 @@ export default {
     border-bottom: var(--border-width) solid var(--accent-cl);
   }
 
-  &:hover,
-  &:focus {
+  &--active {
     background-color: var(--accent-cl);
     color: var(--main-light-cl);
-    outline: none;
   }
 }
 </style>
