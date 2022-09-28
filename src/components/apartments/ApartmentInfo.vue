@@ -10,7 +10,17 @@
       class="apartment-info__img"
     />
     <p class="apartment-info__description">{{ apartment.descr }}</p>
-    <CustomButton class="apartment-info__btn">Book</CustomButton>
+    <CustomButton
+      v-if="authStore.isLoggedIn"
+      @click="makeOrder"
+      class="apartment-info__btn"
+    >
+      Book
+    </CustomButton>
+    <p v-else>
+      <router-link :to="{ name: 'login' }">Log in</router-link>
+      to book an apartment
+    </p>
   </div>
 </template>
 
@@ -18,12 +28,31 @@
 import TitleVue from "../shared/Title.vue";
 import StarRating from "../shared/StarRating.vue";
 import CustomButton from "../shared/CustomButton.vue";
+import { useAuthStore } from "../../store/auth";
+import { createOrder } from "../../services/orders";
 
 export default {
   name: "ApartmentInfo",
   components: { TitleVue, StarRating, CustomButton },
   props: {
     apartment: Object,
+  },
+  setup() {
+    const authStore = useAuthStore();
+    return { authStore };
+  },
+  methods: {
+    async makeOrder() {
+      try {
+        const payload = {
+          date: Date.now().toString(),
+          apartmentId: this.apartment.id,
+        };
+        await createOrder(payload);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>

@@ -12,10 +12,7 @@
       <div class="apartments-item__overlay">
         <p class="apartments-item__description">{{ apartment.descr }}</p>
         <StarRating :rating="apartment.rating" />
-        <p>
-          <span class="apartments-item__price">UAH {{ apartment.price }} </span>
-          for the night
-        </p>
+        <Price :price="apartment.price" />
       </div>
     </router-link>
   </div>
@@ -23,6 +20,7 @@
 
 <script>
 import StarRating from "../shared/StarRating.vue";
+import Price from "../shared/Price.vue";
 
 export default {
   name: "ApartmentsItem",
@@ -32,7 +30,7 @@ export default {
       required: true,
     },
   },
-  components: { StarRating },
+  components: { StarRating, Price },
 };
 </script>
 
@@ -72,9 +70,5 @@ export default {
 .apartments-item__description {
   max-height: 5em;
   overflow: hidden;
-}
-.apartments-item__price {
-  font-size: 20px;
-  font-weight: 700;
 }
 </style>
