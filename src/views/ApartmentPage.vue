@@ -1,4 +1,5 @@
 <template>
+  <FullScreenLoader v-if="isLoading" />
   <section class="apartment">
     <Container class="apartment__container">
       <ApartmentInfo :apartment="apartment" />
@@ -11,26 +12,43 @@
 </template>
 
 <script>
+import { useToast } from "vue-toastification";
 import Container from "../components/shared/Container.vue";
 import ApartmentInfo from "../components/apartments/ApartmentInfo.vue";
-import { getApartmentById } from "../services/apartments";
 import OwnerInfo from "../components/apartments/OwnerInfo.vue";
 import Reviews from "../components/apartments/reviews/Reviews.vue";
+import FullScreenLoader from "../components/shared/loaders/FullScreenLoader.vue";
+
+import { getApartmentById } from "../services/apartments";
 
 export default {
   name: "ApartmentPage",
-  components: { Container, ApartmentInfo, OwnerInfo, Reviews },
+  components: {
+    Container,
+    ApartmentInfo,
+    OwnerInfo,
+    Reviews,
+    FullScreenLoader,
+  },
+  setup() {
+    const toast = useToast();
+    return { toast };
+  },
   data() {
     return {
       apartment: {},
+      isLoading: false,
     };
   },
   async created() {
     try {
+      this.isLoading = true;
       const apartment = await getApartmentById(this.$route.params.id);
       this.apartment = apartment;
     } catch (error) {
-      console.log(error);
+      this.toast.error("Can't get apartment information");
+    } finally {
+      this.isLoading = false;
     }
   },
 };

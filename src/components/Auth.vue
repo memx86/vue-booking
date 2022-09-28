@@ -125,22 +125,19 @@ export default {
     },
 
     async handleSubmit() {
-      try {
-        const action = this.register
-          ? this.authStore.register
-          : this.authStore.login;
+      const action = this.register
+        ? this.authStore.register
+        : this.authStore.login;
 
-        const { name, email, password } = this.formData;
-        const creds = this.register
-          ? { name: name.value, email: email.value, password: password.value }
-          : { email: email.value, password: password.value };
+      const { name, email, password } = this.formData;
+      const creds = this.register
+        ? { name: name.value, email: email.value, password: password.value }
+        : { email: email.value, password: password.value };
 
-        await action(creds);
-        this.reset();
-        this.$router.push({ name: "home" });
-      } catch (error) {
-        console.error(error);
-      }
+      const isSuccessfull = await action(creds);
+      if (!isSuccessfull) return;
+      this.reset();
+      this.$router.push({ name: "home" });
     },
   },
 };

@@ -6,11 +6,13 @@
     </main>
     <FooterVue />
   </div>
+  <FullScreenLoader v-if="authStore.isLoading" />
 </template>
 
 <script>
 import HeaderVue from "./components/Header.vue";
 import FooterVue from "./components/Footer.vue";
+import FullScreenLoader from "./components/shared/loaders/FullScreenLoader.vue";
 import { useAuthStore } from "./store/auth";
 
 export default {
@@ -18,6 +20,7 @@ export default {
   components: {
     HeaderVue,
     FooterVue,
+    FullScreenLoader,
   },
   setup() {
     const authStore = useAuthStore();

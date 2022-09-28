@@ -11,13 +11,16 @@
     />
     <p class="apartment-info__description">{{ apartment.descr }}</p>
     <CustomButton
-      v-if="authStore.isLoggedIn"
+      v-if="authStore.isLoggedIn && !isLoading"
       @click="makeOrder"
       class="apartment-info__btn"
     >
       Book
     </CustomButton>
-    <p v-else class="apartment-info__prompt">
+    <div v-if="isLoading" class="apartment-info__loader">
+      <Loader />
+    </div>
+    <p v-if="!authStore.isLoggedIn" class="apartment-info__prompt">
       <router-link :to="{ name: 'login' }" class="apartment-info__link"
         >Log in</router-link
       >
@@ -27,15 +30,18 @@
 </template>
 
 <script>
+import { useToast } from "vue-toastification";
 import TitleVue from "../shared/Title.vue";
 import StarRating from "../shared/StarRating.vue";
 import CustomButton from "../shared/CustomButton.vue";
+import Loader from "../shared/loaders/Loader.vue";
+
 import { useAuthStore } from "../../store/auth";
 import { createOrder } from "../../services/orders";
 
 export default {
   name: "ApartmentInfo",
-  components: { TitleVue, StarRating, CustomButton },
+  components: { TitleVue, StarRating, CustomButton, Loader },
   props: {
     apartment: {
       type: Object,
@@ -44,18 +50,28 @@ export default {
   },
   setup() {
     const authStore = useAuthStore();
-    return { authStore };
+    const toast = useToast();
+    return { authStore, toast };
+  },
+  data() {
+    return {
+      isLoading: false,
+    };
   },
   methods: {
     async makeOrder() {
       try {
+        this.isLoading = true;
         const payload = {
           date: Date.now().toString(),
           apartmentId: this.apartment.id,
         };
         await createOrder(payload);
+        this.toast.success("Order created");
       } catch (error) {
-        console.error(error);
+        this.toast.error("Can't create order");
+      } finally {
+        this.isLoading = false;
       }
     },
   },
@@ -78,14 +94,16 @@ export default {
   height: 410px;
   margin-bottom: 30px;
 }
-
 .apartment-info__description {
   margin-bottom: 24px;
 }
-
 .apartment-info__btn {
   margin-left: auto;
   margin-right: auto;
+}
+.apartment-info__loader {
+  display: flex;
+  justify-content: center;
 }
 .apartment-info__prompt {
   text-align: center;

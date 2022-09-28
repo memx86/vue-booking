@@ -38,11 +38,7 @@ export default {
   },
   methods: {
     async logout() {
-      try {
-        await this.authStore.logout();
-      } catch (error) {
-        console.error(error);
-      }
+      await this.authStore.logout();
     },
   },
 };
