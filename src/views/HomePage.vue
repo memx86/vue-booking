@@ -1,12 +1,17 @@
 <template>
   <section class="home">
     <Container>
-      <SearchApartment class="home__search" />
+      <SearchApartment
+        :onSubmit="setSearchparams"
+        :cities="cities"
+        class="home__search"
+      />
       <TitleVue class="home__title"> Chosen apartments </TitleVue>
       <ApartmentsList
         v-if="!!filteredApartments.length"
         :apartments="filteredApartments"
       />
+      <p v-else>No apartments found</p>
     </Container>
   </section>
 </template>
@@ -18,6 +23,8 @@ import ApartmentsList from "../components/apartments/ApartmentsList.vue";
 import TitleVue from "../components/shared/Title.vue";
 
 import { getApartments } from "../services/apartments";
+import { getCities } from "../services/cities";
+import prepareOptions from "../helpers/prepareOptions";
 
 export default {
   name: "HomePage",
@@ -25,17 +32,36 @@ export default {
   data() {
     return {
       apartments: [],
+      cities: [],
+      searchParams: {
+        city: "",
+        minPrice: null,
+      },
     };
   },
   computed: {
     filteredApartments() {
-      return this.apartments;
+      if (!this.searchParams.city && this.searchParams.minPrice === null)
+        return this.apartments;
+
+      return this.apartments.filter(
+        (apartment) =>
+          apartment.location.city === this.searchParams.city &&
+          apartment.price >= this.searchParams.minPrice
+      );
     },
   },
-  async mounted() {
+  methods: {
+    setSearchparams(value) {
+      this.searchParams = value;
+    },
+  },
+  async created() {
     try {
       const apartments = await getApartments();
+      const cities = await getCities();
       this.apartments = apartments;
+      this.cities = prepareOptions(cities);
     } catch (error) {
       console.error(error);
     }

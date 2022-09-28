@@ -3,7 +3,7 @@
     <div class="search-from__wrapper">
       <CustomSelect
         v-model="formData.city"
-        :options="options"
+        :options="cities"
         placeholder="City"
       />
       <CustomInput
@@ -33,6 +33,16 @@ const initialState = {
 export default {
   name: "SearchApartment",
   components: { CustomInput, CustomButton, CustomSelect },
+  props: {
+    onSubmit: {
+      type: Function,
+      required: true,
+    },
+    cities: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       formData: { ...initialState },
@@ -45,21 +55,17 @@ export default {
         number,
       };
     },
-    options() {
-      return [
-        { value: "Test city1 value", label: "Test city1" },
-        { value: "Test city2 value", label: "Test city2" },
-        { value: "Test city3 value", label: "Test city3" },
-        { value: "Test city4 value", label: "Test city4" },
-      ];
-    },
     isValid() {
       return this.formData.minPrice.isValid && !!this.formData.city.value;
     },
   },
   methods: {
     handleSubmit() {
-      console.log(this.formData);
+      const { city, minPrice } = this.formData;
+      this.onSubmit({
+        city: city.value,
+        minPrice: minPrice.value,
+      });
     },
   },
 };
