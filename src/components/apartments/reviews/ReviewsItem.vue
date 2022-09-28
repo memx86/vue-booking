@@ -1,5 +1,5 @@
 <template>
-  <div v-if="review" class="reviews-item">
+  <div class="reviews-item">
     <ReviewsUser :review="review" />
     <p class="reviews-item__content">{{ review.content }}</p>
   </div>
@@ -12,6 +12,7 @@ export default {
   props: {
     review: {
       type: Object,
+      required: true,
     },
   },
   components: { ReviewsUser },

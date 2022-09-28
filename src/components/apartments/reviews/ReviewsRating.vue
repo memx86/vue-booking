@@ -1,5 +1,5 @@
 <template>
-  <div v-if="reviews" class="rating">
+  <div class="rating">
     <TitleVue level="3">Rating summary</TitleVue>
     <div class="rating__wrapper">
       <span class="rating__text">{{ reviews.length }} reviews</span>
@@ -17,6 +17,7 @@ export default {
   props: {
     reviews: {
       type: Array,
+      required: true,
     },
     rating: {
       type: Number,

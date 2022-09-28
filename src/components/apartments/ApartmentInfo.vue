@@ -1,5 +1,5 @@
 <template>
-  <div v-if="apartment" class="apartment-info__wrapper">
+  <div class="apartment-info__wrapper">
     <div class="apartment-info__title-wrapper">
       <TitleVue>{{ apartment.title }}</TitleVue>
       <StarRating :rating="apartment.rating" />
@@ -35,7 +35,10 @@ export default {
   name: "ApartmentInfo",
   components: { TitleVue, StarRating, CustomButton },
   props: {
-    apartment: Object,
+    apartment: {
+      type: Object,
+      required: true,
+    },
   },
   setup() {
     const authStore = useAuthStore();

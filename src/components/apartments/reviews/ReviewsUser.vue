@@ -1,5 +1,5 @@
 <template>
-  <div v-if="review" class="reviews-user">
+  <div class="reviews-user">
     <svg class="reviews-user__avatar">
       <use :href="avatarSrc"></use>
     </svg>
@@ -20,6 +20,7 @@ export default {
   props: {
     review: {
       type: Object,
+      required: true,
     },
   },
   computed: {

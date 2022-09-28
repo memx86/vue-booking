@@ -1,5 +1,5 @@
 <template>
-  <article v-if="owner" class="owner-info">
+  <article class="owner-info">
     <TitleVue level="2">Owner info</TitleVue>
     <ul class="owner-info__list">
       <li>Name: {{ owner.name }}</li>
@@ -17,6 +17,7 @@ export default {
   props: {
     owner: {
       type: Object,
+      required: true,
     },
   },
 };

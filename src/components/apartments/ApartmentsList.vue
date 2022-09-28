@@ -1,11 +1,11 @@
 <template>
-  <ul v-if="!!apartments.length" class="apartments-list__list">
+  <ul class="apartments-list__list">
     <li
       v-for="apartment in apartments"
       :key="apartment.id"
       class="apartments-list__item"
     >
-      <ApartmentsItem :apartment="apartment" />
+      <ApartmentsItem v-if="!!apartment" :apartment="apartment" />
     </li>
   </ul>
 </template>
@@ -17,7 +17,7 @@ export default {
   props: {
     apartments: {
       type: Array,
-      default: () => [],
+      required: true,
     },
   },
   components: { ApartmentsItem },

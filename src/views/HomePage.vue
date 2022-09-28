@@ -3,7 +3,10 @@
     <Container>
       <SearchApartment class="home__search" />
       <TitleVue class="home__title"> Chosen apartments </TitleVue>
-      <ApartmentsList :apartments="filteredApartments" />
+      <ApartmentsList
+        v-if="!!filteredApartments.length"
+        :apartments="filteredApartments"
+      />
     </Container>
   </section>
 </template>

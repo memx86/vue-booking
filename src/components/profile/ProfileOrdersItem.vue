@@ -1,5 +1,5 @@
 <template>
-  <div v-if="apartment" class="orders-item">
+  <div class="orders-item">
     <img
       :src="apartment.imgUrl"
       :alt="apartment.title"

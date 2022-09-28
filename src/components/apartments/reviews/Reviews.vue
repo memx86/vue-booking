@@ -1,7 +1,11 @@
 <template>
-  <article v-if="apartment" class="reviews">
-    <ReviewsRating :reviews="apartment.reviews" :rating="apartment.rating" />
-    <ReviewsList :reviews="reviewsToRender" />
+  <article class="reviews">
+    <ReviewsRating
+      v-if="!!apartment.reviews.length"
+      :reviews="apartment.reviews"
+      :rating="apartment.rating"
+    />
+    <ReviewsList v-if="!!reviewsToRender.length" :reviews="reviewsToRender" />
     <CustomButton secondary @click="handleButtonClick">
       {{ buttonText }}
     </CustomButton>
@@ -18,6 +22,7 @@ export default {
   props: {
     apartment: {
       type: Object,
+      required: true,
     },
   },
   data() {

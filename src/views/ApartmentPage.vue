@@ -3,7 +3,7 @@
     <Container class="apartment__container">
       <ApartmentInfo :apartment="apartment" />
       <aside class="apartment__aside">
-        <OwnerInfo :owner="apartment.owner" />
+        <OwnerInfo v-if="apartment.owner" :owner="apartment.owner" />
         <Reviews :apartment="apartment" />
       </aside>
     </Container>

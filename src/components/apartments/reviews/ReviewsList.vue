@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="reviews">
+  <ul>
     <li v-for="review in reviews" :key="review.id">
       <ReviewsItem :review="review" />
     </li>
@@ -11,7 +11,10 @@ import ReviewsItem from "./ReviewsItem.vue";
 export default {
   name: "ReviewsList",
   props: {
-    reviews: { type: Array },
+    reviews: {
+      type: Array,
+      required: true,
+    },
   },
   components: { ReviewsItem },
 };

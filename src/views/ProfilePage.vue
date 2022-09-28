@@ -2,7 +2,7 @@
   <section class="profile">
     <Container class="profile__container">
       <TitleVue>Orders</TitleVue>
-      <ProfileOrdersList :orders="orders" />
+      <ProfileOrdersList v-if="!!orders.length" :orders="orders" />
     </Container>
   </section>
 </template>
