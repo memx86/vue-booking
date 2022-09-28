@@ -2,21 +2,17 @@
   <nav v-if="!authStore.isLoggedIn" class="nav">
     <router-link :to="{ name: 'login' }" class="nav__link">Sign in</router-link>
     <span> / </span>
-    <router-link :to="{ name: 'register' }" class="nav__link"
-      >Sign up</router-link
-    >
+    <router-link :to="{ name: 'register' }" class="nav__link">
+      Sign up
+    </router-link>
   </nav>
-  <router-link v-else :to="{ name: 'profile' }" class="nav__link">
-    Profile
-    <svg class="nav__avatar">
-      <use :href="iconUrl"></use>
-    </svg>
-  </router-link>
+  <ProfileBar v-else />
 </template>
 
 <script>
 import { useAuthStore } from "../store/auth";
-import sprite from "../assets/images/sprite.svg";
+
+import ProfileBar from "./profile/ProfileBar.vue";
 
 export default {
   name: "NavLinks",
@@ -24,11 +20,8 @@ export default {
     const authStore = useAuthStore();
     return { authStore };
   },
-  computed: {
-    iconUrl() {
-      return `${sprite}#human`;
-    },
-  },
+
+  components: { ProfileBar },
 };
 </script>
 
@@ -49,12 +42,5 @@ export default {
   &:focus {
     color: var(--accent-cl);
   }
-}
-
-.nav__avatar {
-  width: 18px;
-  height: 18px;
-  margin-left: 10px;
-  fill: var(--accent-cl);
 }
 </style>

@@ -17,8 +17,10 @@
     >
       Book
     </CustomButton>
-    <p v-else>
-      <router-link :to="{ name: 'login' }">Log in</router-link>
+    <p v-else class="apartment-info__prompt">
+      <router-link :to="{ name: 'login' }" class="apartment-info__link"
+        >Log in</router-link
+      >
       to book an apartment
     </p>
   </div>
@@ -84,5 +86,17 @@ export default {
 .apartment-info__btn {
   margin-left: auto;
   margin-right: auto;
+}
+.apartment-info__prompt {
+  text-align: center;
+}
+.apartment-info__link {
+  text-decoration: underline;
+  transition: color 250ms linear;
+
+  &:hover,
+  &:focus {
+    color: var(--accent-cl);
+  }
 }
 </style>

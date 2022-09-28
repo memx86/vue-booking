@@ -137,6 +137,7 @@ export default {
 
         await action(creds);
         this.reset();
+        this.$router.push({ name: "home" });
       } catch (error) {
         console.error(error);
       }
