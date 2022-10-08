@@ -39,6 +39,7 @@ export default {
   methods: {
     async logout() {
       await this.authStore.logout();
+      this.$router.push({ name: "login" })
     },
   },
 };
@@ -51,22 +52,26 @@ export default {
   align-items: center;
   color: var(--main-light-cl);
 }
+
 .profile-bar__link {
   display: flex;
   align-items: center;
   color: var(--main-light-cl);
   transition: color 250ms linear;
+
   &:hover,
   &:focus {
     color: var(--accent-cl);
   }
 }
+
 .profile-bar__avatar {
   width: 18px;
   height: 18px;
   margin-left: 10px;
   fill: var(--accent-cl);
 }
+
 .profile-bar__btn {
   color: var(--accent-cl);
   transition: color 250ms linear;
@@ -76,6 +81,7 @@ export default {
     color: var(--secondary-accent-cl);
   }
 }
+
 .profile-bar__icon {
   width: 30px;
   height: 30px;

@@ -27,8 +27,8 @@ export default {
     return { authStore };
   },
   async created() {
-    // refresh token
-    if (this.authStore.token) await this.authStore.refresh();
+    // get current user
+    if (this.authStore.token) await this.authStore.current();
 
     // route guards if token is rehydrated and isLoggedIn becomes true
     if (this.authStore.isLoggedIn) {

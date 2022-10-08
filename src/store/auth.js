@@ -7,6 +7,7 @@ const initialState = {
   isLoading: false,
   isLoggedIn: false,
   token: "",
+  refreshToken: "",
 };
 
 const toast = useToast();
@@ -14,14 +15,18 @@ const toast = useToast();
 export const useAuthStore = defineStore("auth", {
   state: () => ({ ...initialState }),
   persist: {
-    paths: ["token"],
+    paths: ["token", "refreshToken"],
   },
   actions: {
+    setTokens({ token, refreshToken }) {
+      this.token = token;
+      this.refreshToken = refreshToken;
+    },
     async register(creds) {
       try {
         this.isLoading = true;
-        const { token } = await users.register(creds);
-        this.token = token;
+        const { token, refreshToken } = await users.register(creds);
+        this.setTokens({ token, refreshToken });
         this.isLoggedIn = true;
         return true;
       } catch (error) {
@@ -34,8 +39,8 @@ export const useAuthStore = defineStore("auth", {
     async login(creds) {
       try {
         this.isLoading = true;
-        const { token } = await users.login(creds);
-        this.token = token;
+        const { token, refreshToken } = await users.login(creds);
+        this.setTokens({ token, refreshToken });
         this.isLoggedIn = true;
         return true;
       } catch (error) {
@@ -45,13 +50,14 @@ export const useAuthStore = defineStore("auth", {
         this.isLoading = false;
       }
     },
-    async refresh() {
+    async current() {
       try {
         this.isLoading = true;
-        await users.refresh(this.token);
+        const token = this.token;
+        await users.current(token);
         this.isLoggedIn = true;
       } catch (error) {
-        this.token = "";
+        console.error(error);
       } finally {
         this.isLoading = false;
       }
@@ -64,9 +70,7 @@ export const useAuthStore = defineStore("auth", {
       } catch (error) {
         toast.error("Wrong server response, forcing logout");
       } finally {
-        this.isLoading = false;
-        this.token = "";
-        this.isLoggedIn = false;
+        this.$reset();
       }
     },
   },
