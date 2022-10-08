@@ -1,6 +1,6 @@
 <template>
   <form class="search-form" @submit.prevent="handleSubmit">
-    <div class="search-from__wrapper">
+    <div class="search-form__wrapper">
       <CustomSelect
         v-model="formData.city"
         :options="cities"
@@ -13,7 +13,9 @@
         :rules="[rules.required(), rules.number()]"
       />
     </div>
-    <CustomButton :disabled="!isValid">Find apartment</CustomButton>
+    <CustomButton :disabled="!isValid" class="search-form__btn"
+      >Find apartment</CustomButton
+    >
   </form>
 </template>
 
@@ -72,13 +74,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/styles/mixin";
 .search-form {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+
+  @include mq(tablet) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
-.search-from__wrapper {
+.search-form__wrapper {
   display: flex;
-  gap: 30px;
+  flex-direction: column;
+  gap: 10px;
+
+  @include mq(tablet) {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  @include mq(desktop) {
+    flex-direction: row;
+    gap: 30px;
+  }
+}
+
+.search-form__btn {
+  @include mq(tablet) {
+    min-width: 200px;
+  }
 }
 </style>

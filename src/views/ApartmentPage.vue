@@ -55,13 +55,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/styles/mixin";
 .apartment {
   padding-top: 60px;
   padding-bottom: 70px;
 }
 .apartment__container {
   display: flex;
+  flex-direction: column;
   gap: 30px;
+  @include mq(desktop) {
+    flex-direction: row;
+  }
 }
 .apartment__aside {
   display: flex;

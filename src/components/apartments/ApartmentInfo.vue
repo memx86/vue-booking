@@ -79,8 +79,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/styles/mixin";
 .apartment-info__wrapper {
-  width: 730px;
+  @include mq(tablet) {
+    width: 730px;
+  }
 }
 .apartment-info__title-wrapper {
   margin-bottom: 20px;
@@ -90,9 +93,12 @@ export default {
 }
 
 .apartment-info__img {
-  width: 730px;
-  height: 410px;
   margin-bottom: 30px;
+
+  @include mq(tablet) {
+    width: 730px;
+    height: 410px;
+  }
 }
 .apartment-info__description {
   margin-bottom: 24px;

@@ -6,7 +6,8 @@
       :rating="apartment.rating"
     />
     <ReviewsList v-if="!!reviewsToRender?.length" :reviews="reviewsToRender" />
-    <CustomButton secondary @click="handleButtonClick">
+    <p v-else>No reviews yet</p>
+    <CustomButton v-if="!!reviewsLength" secondary @click="handleButtonClick">
       {{ buttonText }}
     </CustomButton>
   </article>

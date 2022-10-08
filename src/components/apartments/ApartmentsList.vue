@@ -25,9 +25,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/styles/mixin";
 .apartments-list__list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 30px;
+  gap: 20px;
+
+  @include mq(tablet-only) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include mq(desktop) {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+  }
 }
 </style>

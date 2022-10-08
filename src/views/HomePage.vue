@@ -12,7 +12,7 @@
         v-if="!!filteredApartments.length"
         :apartments="filteredApartments"
       />
-      <p v-else>No apartments found</p>
+      <p v-if="!filteredApartments.length && !isLoading">No apartments found</p>
     </Container>
   </section>
 </template>
@@ -87,15 +87,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/styles/mixin";
 .home {
-  padding-top: 60px;
-  padding-bottom: 100px;
+  padding-top: 30px;
+  padding-bottom: 50px;
+
+  @include mq(tablet) {
+    padding-top: 60px;
+    padding-bottom: 100px;
+  }
 }
 .home__search {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+
+  @include mq(tablet) {
+    margin-bottom: 40px;
+  }
 }
 
 .home__title {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+
+  @include mq(tablet) {
+    margin-bottom: 20px;
+  }
 }
 </style>

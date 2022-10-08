@@ -144,6 +144,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/styles/mixin";
 .auth {
   flex-grow: 1;
   display: flex;
@@ -163,9 +164,12 @@ export default {
   }
 }
 .auth__wrapper {
-  min-width: 410px;
   padding: 32px;
   background-color: var(--main-light-cl);
+
+  @include mq(tablet) {
+    min-width: 410px;
+  }
 }
 .auth__title {
   margin-bottom: 30px;
@@ -185,6 +189,11 @@ export default {
 .auth__text {
   margin-top: 10px;
   text-align: center;
+
+  @include mq(mobile-only) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 .auth__link {

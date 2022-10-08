@@ -24,10 +24,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/styles/mixin";
 .owner-info {
-  width: 350px;
   padding: 20px;
   background-color: var(--secondary-accent-cl);
+
+  @include mq(desktop) {
+    width: 350px;
+  }
 }
 
 .owner-info__list {

@@ -31,20 +31,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/styles/mixin";
 .orders-item {
   display: flex;
+  flex-direction: column;
   gap: 10px;
   border: 1px solid var(--secondary-accent-cl);
+
+  @include mq(tablet) {
+    flex-direction: row;
+  }
 }
 .orders-item__img {
-  width: 349px;
-  height: 196px;
+  @include mq(tablet) {
+    width: 349px;
+    height: 196px;
+  }
 }
 .orders-item__content {
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 10px;
+
+  @include mq(tablet) {
+    gap: unset;
+  }
 }
 .orders-item__wrapper {
   display: flex;
